@@ -29,6 +29,7 @@ Stand-alone graphical outputs are placed in this directory. They may be useful i
 - `plots/`
   - `qc/`: Directory containing quality control plots from initial processing e.g. DESeq2
     - `*.dispersion.png`: Plot of the per-gene dispersion estimates together with the fitted mean-dispersion relationship
+    - `*.MA_plot.png`: MA plot of comparison using DESeq2's plotMA command
   - `exploratory/`: Directory containing standalone plots from exploratory analysis. Plots are stored in directories named for the main coloring variable used.
     - `[contrast_variable]/png/sample_to_sample_distance.png`: Sample to sample distance heatmap
     - `[contrast_variable]/png/pc_loading.png`: PC loading of the first two principle components of samples using normalized counts

@@ -443,6 +443,16 @@ png(
 plotDispEsts(dds)
 dev.off()
 
+# plotMA
+png(
+    file = paste(opt\$output_prefix, 'deseq2.MA_plot.png', sep = '.'),
+    width = 600,
+    height = 600
+)
+
+plotMA(dds)
+dev.off()
+
 # R object for other processes to use
 
 saveRDS(dds, file = paste(opt\$output_prefix, 'dds.rld.rds', sep = '.'))
