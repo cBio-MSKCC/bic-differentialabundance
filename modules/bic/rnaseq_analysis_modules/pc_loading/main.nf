@@ -8,7 +8,7 @@ process PC_LOADING {
 
     input:
     tuple val(meta), path(vst)
-    tuple val(meta2), path(de_results), val(contrast_meta), path(sample_key) // DE results file 
+    tuple val(contrast_val), path(sample_key) 
     path(gene_map)
 
     output:
@@ -17,7 +17,7 @@ process PC_LOADING {
 
     script:
     def args = task.ext.args ?: ''
-    def out_file = "${contrast_meta.id}/png/pc_loading.png"
+    def out_file = "${contrast_val}/png/pc_loading.png"
 
     """
     mkdir -p \$(dirname ${out_file})

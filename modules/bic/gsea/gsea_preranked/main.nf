@@ -8,9 +8,7 @@ process GSEA_GSEA_PRERANKED {
         'biocontainers/gsea:4.3.2--hdfd78af_0' }"
 
     input:
-    tuple val(meta), path(differential)
-    path(gene_sets)
-    path(chip)
+    tuple val(meta), path(differential), path(gene_sets), path(chip)
 
     output:
     tuple val(meta), path("*.rpt")                                   , emit: rpt
@@ -23,9 +21,9 @@ process GSEA_GSEA_PRERANKED {
     tuple val(meta), path("*gene_set_sizes.tsv")                     , emit: gene_set_sizes
     tuple val(meta), path("*global_es_histogram.png")                , emit: histogram
     tuple val(meta), path("*pvalues_vs_nes_plot.png")                , emit: pvalues_vs_nes_plot
-    tuple val(meta), path("*[!gene_set_size|gsea_report|ranked_gene_list]*.tsv"), emit: gene_set_tsv, optional: true
-    tuple val(meta), path("*[!gsea_report|heat_map_corr_plot|index|pos_snapshot|neg_snapshot]*.html"), emit: gene_set_html, optional: true
-    tuple val(meta), path("*[!butterfly|enplot|global_es_histogram|gset_rnd_es_dist|heat_map|pvalues_vs_nes_plot|ranked_list_corr]*.png"), emit: gene_set_heatmap, optional: true
+    tuple val(meta), path("gene_sets_*.tsv")                         , emit: gene_set_tsv, optional: true
+    tuple val(meta), path("gene_sets_*.html")                        , emit: gene_set_html, optional: true
+    tuple val(meta), path("gene_sets_*.png")                         , emit: gene_set_heatmap, optional: true
     tuple val(meta), path("*_snapshot*.html")                        , emit: snapshot, optional: true
     tuple val(meta), path("*enplot*.png")                            , emit: gene_set_enplot, optional: true
     tuple val(meta), path("*gset_rnd_es_dist*.png")                  , emit: gene_set_dist, optional: true
@@ -62,7 +60,7 @@ process GSEA_GSEA_PRERANKED {
 
     # Run GSEA
 
-    export HOME=$PWD
+    export HOME="\$PWD"
     export JVM_MEM_OPTS="-Xmx8g"
 
     gsea-cli GSEAPreranked \\
@@ -89,6 +87,22 @@ process GSEA_GSEA_PRERANKED {
         mv \$f ${prefix}\${f}
         sed -i.bak "s/\$f/${prefix}\${f}/g" *.rpt *.html && rm *.bak
     done
+
+    # Prefix per-gene-set outputs with "gene_sets_" so they can be referenced by the output channels
+    rename_files() {
+        local pattern=\$1
+        local exclude_patterns=\$2
+
+        find . -type f -name "\$pattern" | while read -r file; do
+            if ! echo "\$file" | grep -qE "\$exclude_patterns"; then
+                mv "\$file" "\$(dirname "\$file")/gene_sets_\$(basename "\$file")"
+            fi
+        done
+    }
+
+    rename_files "*.tsv" "gene_set_size|gsea_report|ranked_gene_list"
+    rename_files "*.html" "gsea_report|index|pos_snapshot|neg_snapshot"
+    rename_files "*.png" "enplot|global_es_histogram|gset_rnd_es_dist|pvalues_vs_nes_plot"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

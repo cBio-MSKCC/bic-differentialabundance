@@ -12,10 +12,10 @@ This directory contains the main reporting output of the workflow.
 <summary>Output files</summary>
 
 - `report/`
-  - `*.html`: an HTML report file named according to the value of `params.study_name`, containing graphical and tabular summary results for the workflow run.
-  - `*.zip`: a zip file containing an R markdown file with parameters set and all necessary input files to open and customise the reporting.
-  - `gsea/`
-    - `[contrast]/gmx_list/[contrast].gmx_list.index.html`: index page that shows gsea results.
+  - `contrasts/*.html`: an HTML report file named according to the value of `params.study_name`, containing graphical and tabular summary results for the workflow run.
+  - `contrasts/*.zip`: a zip file containing an R markdown file with parameters set and all necessary input files to open and customise the reporting.
+  - `gsea/contrasts/`
+    - `[contrast]/[gmx_list]/[contrast].[gmx_list].index.html`: index page that shows gsea results.
 
 </details>
 
@@ -27,10 +27,10 @@ Stand-alone graphical outputs are placed in this directory. They may be useful i
 <summary>Output files</summary>
 
 - `plots/`
-  - `qc/`: Directory containing quality control plots from initial processing e.g. DESeq2
+  - `qc/contrasts/`: Directory containing quality control plots from initial processing e.g. DESeq2
     - `*.dispersion.png`: Plot of the per-gene dispersion estimates together with the fitted mean-dispersion relationship
     - `*.MA_plot.png`: MA plot of comparison using DESeq2's plotMA command
-  - `exploratory/`: Directory containing standalone plots from exploratory analysis. Plots are stored in directories named for the main coloring variable used.
+  - `exploratory/contrasts/`: Directory containing standalone plots from exploratory analysis. Plots are stored in directories named for the main coloring variable used.
     - `[contrast_variable]/png/sample_to_sample_distance.png`: Sample to sample distance heatmap
     - `[contrast_variable]/png/pc_loading.png`: PC loading of the first two principle components of samples using normalized counts
     - `[contrast_variable]/png/plot_MDS.png`: Multidimensional scaling plot of normalized counts
@@ -40,7 +40,7 @@ Stand-alone graphical outputs are placed in this directory. They may be useful i
     - `[contrast_variable]/png/pca3d.png`: 3-dimensional PCA plot
     - `[contrast_variable]/png/sample_dendrogram.png`: A sample clustering dendrogram
     - `[contrast_variable]/png/mad_correlation.png`: Outlier prediction plots using median absolute deviation (MAD)
-  - `differential/`: Directory containing standalone plots from differential analysis. Plots are stored in directories named for the associated contrast.
+  - `differential/contrasts/`: Directory containing standalone plots from differential analysis. Plots are stored in directories named for the associated contrast.
     - `[contrast]/png/volcano.png`: Volcano plots of -log(10) p value agains log(2) fold changes
     - `[contrast]/png/heatmap.png`: Heatmap of 50 highly differentially expressed genes
 
@@ -54,10 +54,10 @@ Most plots are included in the HTML report (see above), but are also included in
 <summary>Output files</summary>
 
 - `tables/`
-  - `processed_abundance/`: Directory containing processed abundance values from initial processing from e.g. DESeq2 or Affy:
+  - `processed_abundance/contrasts/`: Directory containing processed abundance values from initial processing from e.g. DESeq2 or Affy:
     - `all.normalised_counts.tsv`: Normalised counts table (DESeq2)
     - `all.vst.tsv`: Normalised counts table with a variance-stabilising transform (DESeq2)
-  - `differential/`: Directory containing tables of differential statistics reported by differential modules such as DESeq2
+  - `differential/contrasts/`: Directory containing tables of differential statistics reported by differential modules such as DESeq2
     - `[contrast].deseq2.de_results.tsv`: Results of DESeq2 differential analyis (RNA-seq)
     - `[contrast].deseq2.de_results_filtered.tsv`: Results of DESeq2 differential analyis (RNA-seq) filtered to cutoff thresholds
 

@@ -6,3 +6,4 @@ features_name_col: 'GeneSymbol'
 differential_feature_id_column: 'GeneID'
 features_metadata_cols: 'GeneID,GeneSymbol'
 igenomes_ignore: true
+functional_method: 'gsea'

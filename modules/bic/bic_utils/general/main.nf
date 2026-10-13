@@ -51,10 +51,12 @@ def getFullConditionList() {
             def columns = line.split(inputSeparator)
             
             if (!sample_list.contains(columns[sampleIndex])) {
-                for( idx in conditionIndexes){
-                    cond_list << idx + "_" + columns[idx]
+                conditionIndexes.each { idx ->
+                    def condition = columns[idx]?.trim()
+                    if (condition && condition != '_EXCLUDE_') {
+                        cond_list << idx + "_" + condition
+                    }
                 }
-                sample_list << columns[sampleIndex]
             }
         }
     }

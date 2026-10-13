@@ -7,7 +7,8 @@ process SAMPLE_TO_SAMPLE_DISTANCE {
         '/juno/bic/depot/singularity/bic_rnaseq_modules/tag/2.0.2/bic_rnaseq_modules_2.0.2.simg' }"
 
     input:
-    tuple val(meta), path(vst), val(meta2), path(sample_key)
+    tuple val(meta), path(vst)
+    tuple val(variable_val), path(sample_key)
 
     output:
     path '*/png/sample_to_sample_distance.png' , emit: sample_dist
@@ -15,7 +16,7 @@ process SAMPLE_TO_SAMPLE_DISTANCE {
 
     script:    
     def args = task.ext.args ?: ''
-    def out_file = "${meta.variable}/png/sample_to_sample_distance.png"
+    def out_file = "${variable_val}/png/sample_to_sample_distance.png"
     """
     mkdir -p \$(dirname ${out_file})
 

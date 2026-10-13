@@ -8,7 +8,7 @@ process MDS_CLUSTERING {
 
     input:
     tuple val(meta), path(norm)         // normalized counts
-    tuple val(meta2), path(de_results), val(contrast_meta), path(sample_key) // DE results file 
+    tuple val(contrast_val), path(sample_key) // DE results file 
 
 
     output:
@@ -17,7 +17,7 @@ process MDS_CLUSTERING {
 
     script:
     def args = task.ext.args ?: ''
-    def out_prefix = "${contrast_meta.id}/png/plot"
+    def out_prefix = "${contrast_val}/png/plot"
 
     """
     mkdir -p \$(dirname ${out_prefix})
